@@ -10,13 +10,21 @@ except (AttributeError, OSError):
     pass
 
 CONVENTIONAL_COMMITS_PATTERN = re.compile(
-    r"^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert)"
-    r"(\([\w.-]+\))?: .{1,72}$"
+    r"^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert)" r"(\([\w.-]+\))?: .{1,72}$"
 )
 
 ALLOWED_TYPES = [
-    "feat", "fix", "chore", "docs", "style",
-    "refactor", "perf", "test", "build", "ci", "revert",
+    "feat",
+    "fix",
+    "chore",
+    "docs",
+    "style",
+    "refactor",
+    "perf",
+    "test",
+    "build",
+    "ci",
+    "revert",
 ]
 
 
