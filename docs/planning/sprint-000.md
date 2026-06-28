@@ -14,12 +14,18 @@
 | 1 | ✅ Instalar pip | Solucionar la falta de pip en Python 3.13.7 | — |
 | 2 | ✅ Crear entorno virtual y estructura de carpetas | Preparar el layout del proyecto | (ver estructura arriba) |
 | 3 | ✅ Crear archivos de configuración del proyecto | `requirements.txt`, `pyproject.toml`, `.env`, `.env.example`, `.gitignore` | Múltiples |
-| 4 | Configurar el core del proyecto | `config.py`, `database.py`, `dependencies.py`, `logging_config.py` | `core/` |
-| 5 | Crear punto de entrada de la app | `main.py` + `run.py` + `run.bat` | Raíz del proyecto |
-| 6 | Inicializar Git y conectar con GitHub | Repo local → GitHub remoto | — |
-| 7 | Configurar VS Code | Extensiones y settings recomendados | `.vscode/` |
-| 8 | Configurar GitHub Actions (CI) | Lint + test automáticos | `.github/workflows/` |
-| 9 | Verificación final | Probar que todo funciona | — |
+| 4 | ✅ Configurar el core del proyecto | `config.py`, `database.py`, `dependencies.py`, `logging_config.py` | `core/` |
+|   | ✅ Completada el 2026-06-28 | | |
+| 5 | ✅ Crear punto de entrada de la app | `main.py` + `run.py` + `run.bat` | Raíz del proyecto |
+|   | ✅ Completada el 2026-06-28 | | |
+| 6 | ✅ Inicializar Git y conectar con GitHub | Repo local → GitHub remoto | — |
+|   | ✅ Completada el 2026-06-28 | | |
+| 7 | ✅ Configurar VS Code | Extensiones y settings recomendados | `.vscode/` |
+|   | ✅ Completada el 2026-06-28 | | |
+| 8 | ✅ Configurar GitHub Actions (CI) | Lint + test automáticos | `.github/workflows/` |
+|   | ✅ Completada el 2026-06-28 | | |
+| 9 | ✅ Verificación final | Probar que todo funciona | — |
+|   | ✅ Completada el 2026-06-28 | | |
 
 ---
 
@@ -718,17 +724,23 @@ Antes de dar por terminado el Sprint 0, verifica:
 | `documentos/__init__.py` | Paquete documentos (vacío) |
 | `sincronizacion/__init__.py` | Paquete sincronización (vacío) |
 | `tablero/__init__.py` | Paquete tablero (vacío) |
-| `tests/__init__.py` (y subpaquetes) | Paquete de tests (vacío) |
+| `tests/__init__.py` (y subpaquetes) | Paquete de tests |
+| `tests/test_config.py` | Tests de configuración |
+| `tests/test_database.py` | Tests de base de datos |
+| `tests/test_dependencies.py` | Tests de dependencias |
+| `tests/test_logging_config.py` | Tests de logging |
+| `tests/test_main.py` | Tests del punto de entrada |
 | `.github/workflows/ci.yml` | CI con Ruff + pytest |
+| `.github/workflows/pr-validation.yml` | Validación de PRs (conventional commits, branch naming) |
 | `.vscode/extensions.json` | Extensiones recomendadas |
 
 ---
 
 ## 🎯 Criterios de aceptación del Sprint 0
 
-- [ ] La aplicación arranca sin errores con `python run.py`
-- [ ] Swagger UI es accesible en `http://localhost:8000/docs`
-- [ ] Ruff no reporta errores con `ruff check .`
-- [ ] El repositorio está en GitHub con el commit inicial etiquetado como `v0.1.0`
-- [ ] El README.md (opcional) tiene instrucciones de instalación
-- [ ] Todos los módulos tienen su estructura de carpetas creada (aunque vacía)
+- [x] La aplicación arranca sin errores con `python run.py`
+- [x] Swagger UI es accesible en `http://localhost:8000/docs`
+- [x] Ruff no reporta errores con `ruff check .`
+- [x] El repositorio está en GitHub con el commit inicial
+- [x] El README.md tiene instrucciones de instalación
+- [x] Todos los módulos tienen su estructura de carpetas creada (aunque vacía)

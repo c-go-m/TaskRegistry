@@ -1,7 +1,7 @@
 # Backlog del Proyecto — TaskRegistry
 
 > **Proyecto:** TaskRegistry — Bitácora personal de tareas laborales
-> **Última actualización:** 2026-06-28
+> **Última actualización:** 2026-06-28 (Sprint 0 completado)
 
 ---
 
@@ -25,10 +25,10 @@
 - [x] HU-002: Como desarrollador, quiero tener la estructura de carpetas del proyecto creada para organizar el código
 - [x] HU-003: Como desarrollador, quiero tener el archivo de dependencias (requirements.txt) para instalar las librerías necesarias
 - [x] HU-004: Como desarrollador, quiero tener el archivo pyproject.toml configurado con Ruff y pytest
-- [ ] HU-005: Como desarrollador, quiero tener el archivo main.py funcional que levante FastAPI para verificar que todo funciona
-- [ ] HU-006: Como desarrollador, quiero tener el repositorio Git inicializado y conectado a GitHub para versionar el código
-- [ ] HU-007: Como desarrollador, quiero tener CI/CD configurado con GitHub Actions para automatizar lint y tests
-- [ ] HU-008: Como desarrollador, quiero tener el core del proyecto configurado (config, database, dependencies, logging)
+- [x] HU-005: Como desarrollador, quiero tener el archivo main.py funcional que levante FastAPI para verificar que todo funciona
+- [x] HU-006: Como desarrollador, quiero tener el repositorio Git inicializado y conectado a GitHub para versionar el código
+- [x] HU-007: Como desarrollador, quiero tener CI/CD configurado con GitHub Actions para automatizar lint y tests
+- [x] HU-008: Como desarrollador, quiero tener el core del proyecto configurado (config, database, dependencies, logging)
 
 ### E-02: Módulo Proyectos
 - [ ] HU-009: Como usuario, quiero crear un proyecto con nombre y descripción para organizar mis tareas

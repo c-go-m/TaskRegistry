@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "wholroyd.jinja",
+        "mrmlnc.vscode-htmx",
+        "eamodio.gitlens",
+        "Gruntfuggly.todo-tree"
+    ]
+}
