@@ -101,6 +101,11 @@ taskregistry/
 └── tests/                           # Tests unitarios
     ├── __init__.py
     ├── conftest.py                  # Fixtures globales (BD en memoria, TestClient, mocks)
+    ├── core/                        # Tests del módulo Core
+    │   ├── test_config.py           # Settings, variables de entorno, campos obligatorios
+    │   ├── test_database.py         # Engine, sesiones, creación de tablas
+    │   ├── test_dependencies.py     # Fábricas de dependencias FastAPI
+    │   └── test_logging_config.py   # Configuración de logging
     ├── proyectos/
     │   ├── test_router.py
     │   ├── test_service.py

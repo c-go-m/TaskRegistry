@@ -2,7 +2,6 @@
 
 import logging
 import sys
-from pathlib import Path
 
 from core.config import settings
 
@@ -25,7 +24,7 @@ def setup_logging():
         ],
     )
 
-    log_dir = Path("data")
+    log_dir = settings.data_dir
     log_dir.mkdir(parents=True, exist_ok=True)
     file_handler = logging.FileHandler(
         log_dir / "taskregistry.log",

@@ -1,7 +1,7 @@
 # Backlog del Proyecto — TaskRegistry
 
 > **Proyecto:** TaskRegistry — Bitácora personal de tareas laborales
-> **Última actualización:** 2026-06-28 (Sprint 0 completado)
+> **Última actualización:** 2026-06-28
 
 ---
 

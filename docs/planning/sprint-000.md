@@ -1,125 +1,50 @@
-# Sprint 0 — Configuración del Proyecto
+# Sprint 0 — Configuracion del Proyecto
 
 > **Proyecto:** TaskRegistry
 > **Sprint:** 0 (Setup)
-> **Duración estimada:** 1 sesión
-> **Objetivo:** Tener el proyecto configurado, funcional y versionado en GitHub, listo para comenzar el desarrollo de módulos.
+> **Duracion estimada:** 1 sesion
+> **Objetivo:** Tener el proyecto configurado, funcional y versionado en GitHub, listo para comenzar el desarrollo de modulos.
 
 ---
 
-## 📋 Tareas del Sprint 0
+## Tareas del Sprint 0
 
-| # | Tarea | Descripción | Archivos a crear/modificar |
-|---|-------|-------------|---------------------------|
-| 1 | ✅ Instalar pip | Solucionar la falta de pip en Python 3.13.7 | — |
-| 2 | ✅ Crear entorno virtual y estructura de carpetas | Preparar el layout del proyecto | (ver estructura arriba) |
-| 3 | ✅ Crear archivos de configuración del proyecto | `requirements.txt`, `pyproject.toml`, `.env`, `.env.example`, `.gitignore` | Múltiples |
-| 4 | ✅ Configurar el core del proyecto | `config.py`, `database.py`, `dependencies.py`, `logging_config.py` | `core/` |
-|   | ✅ Completada el 2026-06-28 | | |
-| 5 | ✅ Crear punto de entrada de la app | `main.py` + `run.py` + `run.bat` | Raíz del proyecto |
-|   | ✅ Completada el 2026-06-28 | | |
-| 6 | ✅ Inicializar Git y conectar con GitHub | Repo local → GitHub remoto | — |
-|   | ✅ Completada el 2026-06-28 | | |
-| 7 | ✅ Configurar VS Code | Extensiones y settings recomendados | `.vscode/` |
-|   | ✅ Completada el 2026-06-28 | | |
-| 8 | ✅ Configurar GitHub Actions (CI) | Lint + test automáticos | `.github/workflows/` |
-|   | ✅ Completada el 2026-06-28 | | |
-| 9 | ✅ Verificación final | Probar que todo funciona | — |
-|   | ✅ Completada el 2026-06-28 | | |
+| # | Tarea | Descripcion | Archivos creados |
+|---|-------|-------------|------------------|
+| 1 | Instalar pip | Solucionar la falta de pip en Python 3.13.7 | — |
+| 2 | Crear entorno virtual y estructura de carpetas | Preparar el layout del proyecto | Estructura completa de directorios y `__init__.py` |
+| 3 | Crear archivos de configuracion del proyecto | Dependencias,工具 config, variables de entorno | `requirements.txt`, `pyproject.toml`, `.env`, `.env.example`, `.gitignore` |
+| 4 | Configurar el core del proyecto | Settings, database, dependencies, logging | `core/config.py`, `core/database.py`, `core/dependencies.py`, `core/logging_config.py` |
+| 5 | Crear punto de entrada de la app | Aplicacion FastAPI funcional | `main.py`, `run.py`, `run.bat` |
+| 6 | Inicializar Git y conectar con GitHub | Repo local -> remoto | — |
+| 7 | Configurar VS Code | Extensiones y settings recomendados | `.vscode/extensions.json` |
+| 8 | Configurar GitHub Actions (CI) | Lint + test automaticos | `.github/workflows/ci.yml`, `.github/workflows/pr-validation.yml` |
+| 9 | Verificacion final | Probar que todo funciona | — |
 
 ---
 
-## 🧩 Tarea 1: Instalar pip
+## Tarea 1: Instalar pip
 
 ### Problema
-Python 3.13.7 está instalado pero **pip no está disponible** (da error `ModuleNotFoundError: No module named 'pip'`).
+Python 3.13.7 esta instalado pero pip no estaba disponible (error `ModuleNotFoundError: No module named 'pip'`).
 
-### Solución paso a paso
+### Que se hizo
+- Descargar el script `get-pip.py` desde `https://bootstrap.pypa.io/get-pip.py`
+- Ejecutar el script para instalar pip
+- Verificar la instalacion con `python -m pip --version`
 
-1. Abre una terminal **como administrador** (Windows: botón derecho en "Símbolo del sistema" o "PowerShell" → "Ejecutar como administrador")
-
-2. Descarga el script de instalación de pip:
-   ```powershell
-   curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-   ```
-
-3. Ejecuta el script para instalar pip:
-   ```powershell
-   python get-pip.py
-   ```
-
-4. Verifica que pip se instaló correctamente:
-   ```powershell
-   python -m pip --version
-   ```
-   Deberías ver algo como: `pip 25.x from C:\Users\gomezcam\...\site-packages\pip (python 3.13)`
-
-5. (Opcional) Elimina el archivo `get-pip.py`:
-   ```powershell
-   del get-pip.py
-   ```
-
-> ✅ **Completada el 2026-06-28** — pip 26.1.2 instalado y funcionando para Python 3.13.7.
+### Resultado
+pip 26.1.2 instalado y funcionando para Python 3.13.7.
 
 ---
 
-## 🧩 Tarea 2: Crear entorno virtual y estructura de carpetas
+## Tarea 2: Crear entorno virtual y estructura de carpetas
 
-### 2.1 Crear el entorno virtual
-
-En la raíz del proyecto (`C:\Repos\Personal\IA\TaskRegistry\`), ejecuta:
-
-```powershell
-python -m venv venv
-```
-
-Esto crea una carpeta `venv/` con un Python aislado para el proyecto.
-
-### 2.2 Activar el entorno virtual
-
-```powershell
-.\venv\Scripts\activate
-```
-
-Deberías ver `(venv)` al inicio de la línea en la terminal.
-
-### 2.3 Crear la estructura de carpetas
-
-Ejecuta este comando en PowerShell desde la raíz del proyecto:
-
-```powershell
-# Crear estructura de directorios
-New-Item -ItemType Directory -Path "core" -Force
-New-Item -ItemType Directory -Path "proyectos", "proyectos\templates\proyectos" -Force
-New-Item -ItemType Directory -Path "tareas", "tareas\templates\tareas" -Force
-New-Item -ItemType Directory -Path "documentos", "documentos\templates\documentos" -Force
-New-Item -ItemType Directory -Path "sincronizacion", "sincronizacion\templates\sincronizacion" -Force
-New-Item -ItemType Directory -Path "tablero", "tablero\templates\tablero" -Force
-New-Item -ItemType Directory -Path "static\css", "static\js" -Force
-New-Item -ItemType Directory -Path "data\docs" -Force
-New-Item -ItemType Directory -Path "tests\proyectos", "tests\tareas", "tests\sincronizacion", "tests\tablero" -Force
-New-Item -ItemType Directory -Path ".github\workflows" -Force
-New-Item -ItemType Directory -Path ".vscode" -Force
-```
-
-### 2.4 Crear archivos `__init__.py` vacíos
-
-Python necesita estos archivos para reconocer las carpetas como paquetes:
-
-```powershell
-# Crear __init__.py en cada paquete
-@"" | Out-File -FilePath "core\__init__.py" -Encoding utf8
-@"" | Out-File -FilePath "proyectos\__init__.py" -Encoding utf8
-@"" | Out-File -FilePath "tareas\__init__.py" -Encoding utf8
-@"" | Out-File -FilePath "documentos\__init__.py" -Encoding utf8
-@"" | Out-File -FilePath "sincronizacion\__init__.py" -Encoding utf8
-@"" | Out-File -FilePath "tablero\__init__.py" -Encoding utf8
-@"" | Out-File -FilePath "tests\__init__.py" -Encoding utf8
-@"" | Out-File -FilePath "tests\proyectos\__init__.py" -Encoding utf8
-@"" | Out-File -FilePath "tests\tareas\__init__.py" -Encoding utf8
-@"" | Out-File -FilePath "tests\sincronizacion\__init__.py" -Encoding utf8
-@"" | Out-File -FilePath "tests\tablero\__init__.py" -Encoding utf8
-```
+### Que se hizo
+- Crear entorno virtual con `python -m venv venv`
+- Activar el entorno virtual
+- Crear toda la estructura de directorios del proyecto
+- Crear archivos `__init__.py` en cada paquete Python
 
 ### Estructura resultante
 
@@ -155,6 +80,7 @@ C:\Repos\Personal\IA\TaskRegistry\
 │   └── docs/
 ├── tests/
 │   ├── __init__.py
+│   ├── core/
 │   ├── proyectos/
 │   ├── tareas/
 │   ├── sincronizacion/
@@ -167,580 +93,171 @@ C:\Repos\Personal\IA\TaskRegistry\
 
 ---
 
-## 🧩 Tarea 3: Crear archivos de configuración del proyecto
+## Tarea 3: Crear archivos de configuracion del proyecto
 
-### 3.1 `requirements.txt`
+### Archivos creados
 
-Crea el archivo `requirements.txt` en la raíz con este contenido:
+| Archivo | Proposito | Contenido principal |
+|---------|-----------|---------------------|
+| `requirements.txt` | Dependencias del proyecto | fastapi, uvicorn, sqlmodel, alembic, pydantic-settings, jinja2, httpx, ruff, pytest |
+| `pyproject.toml` | Configuracion de herramientas | Ruff (line-length=100, doble comilla), pytest (testpaths = tests) |
+| `.env` | Variables de entorno local (gitignorado) | APP_NAME, DATABASE_URL, Azure DevOps creds |
+| `.env.example` | Plantilla para otros desarrolladores | Mismas variables que .env pero con valores vacios |
+| `.gitignore` | Archivos ignorados por Git | venv/, data/, __pycache__/, .env, .vscode/settings.json |
 
-```txt
-# Framework
-fastapi==0.115.0
-uvicorn[standard]==0.30.0
-
-# Base de datos
-sqlmodel==0.0.22
-alembic==1.13.0
-
-# Configuración
-pydantic-settings==2.5.0
-python-dotenv==1.0.1
-
-# Templates
-jinja2==3.1.4
-aiofiles==24.1.0
-python-multipart==0.0.12
-
-# Cliente HTTP (para Azure DevOps API)
-httpx==0.27.0
-
-# Desarrollo
-ruff==0.6.0
-pytest==8.3.0
-pytest-cov==5.0.0
-httpx==0.27.0               # también usado en tests para TestClient
-```
-
-### 3.2 Instalar dependencias
-
-Con el entorno virtual activo (`(venv)` visible):
-
-```powershell
-python -m pip install -r requirements.txt
-```
-
-### 3.3 `pyproject.toml`
-
-Configura Ruff y pytest. Crea este archivo en la raíz:
-
-```toml
-[project]
-name = "task-registry"
-version = "0.1.0"
-description = "Bitácora personal de tareas laborales con sincronización a Azure DevOps"
-requires-python = ">=3.12"
-
-[tool.ruff]
-target-version = "py313"
-line-length = 100
-
-[tool.ruff.lint]
-select = ["E", "F", "I", "N", "W", "UP"]
-
-[tool.ruff.format]
-quote-style = "double"
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-```
-
-### 3.4 `.env` (local, gitignorado)
-
-```env
-# Configuración de la aplicación
-APP_NAME=TaskRegistry
-APP_VERSION=0.1.0
-DEBUG=true
-LOG_LEVEL=DEBUG
-
-# Base de datos
-DATABASE_URL=sqlite:///data/taskregistry.db
-
-# Azure DevOps (opcional, se configura después)
-AZURE_DEVOPS_ORG=
-AZURE_DEVOPS_PROJECT=
-AZURE_DEVOPS_PAT=
-```
-
-### 3.5 `.env.example` (plantilla para otros desarrolladores)
-
-Copia el mismo contenido que `.env` pero con valores vacíos o de ejemplo. Es el archivo que se versiona en Git.
-
-### 3.6 `.gitignore`
-
-```gitignore
-# Entorno virtual
-venv/
-.venv/
-
-# Datos de usuario
-data/
-!data/.gitkeep
-
-# Archivos de entorno local
-.env
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-*.egg-info/
-dist/
-build/
-
-# VS Code (settings personales)
-.vscode/settings.json
-.vscode/launch.json
-
-# OS
-.DS_Store
-Thumbs.db
-
-# IDE
-.idea/
-*.swp
-*.swo
-
-# Logs
-*.log
-```
-
-> ✅ **Completada el 2026-06-28** — Archivos `requirements.txt`, `pyproject.toml`, `.env`, `.env.example` y `.gitignore` creados. Dependencias instaladas (39 paquetes). Ruff check: `All checks passed!`.
+### Resultado
+Dependencias instaladas (39 paquetes). Ruff check: `All checks passed!`.
 
 ---
 
-## 🧩 Tarea 4: Configurar el core del proyecto
+## Tarea 4: Configurar el core del proyecto
 
-### 4.1 `core/config.py`
+### Archivos creados en `core/`
 
-Configuración centralizada usando `pydantic-settings`:
+| Archivo | Proposito | Lo que implementa |
+|---------|-----------|-------------------|
+| `config.py` | Configuracion centralizada | Clase `Settings` con pydantic-settings que lee variables de `.env` |
+| `database.py` | Configuracion de base de datos | Engine SQLAlchemy para SQLite, `create_db_and_tables()`, `get_session()` |
+| `dependencies.py` | Fábricas de dependencias FastAPI | `get_db()` para inyectar sesion BD, `get_logger()` |
+| `logging_config.py` | Configuracion de logging | Salida a consola + archivo `data/taskregistry.log` |
 
-```python
-"""Configuración de la aplicación usando pydantic-settings."""
-
-from pathlib import Path
-
-from pydantic_settings import BaseSettings, SettingsConfigDict
-
-
-class Settings(BaseSettings):
-    """Configuración de la aplicación."""
-
-    # Metadatos
-    app_name: str = "TaskRegistry"
-    app_version: str = "0.1.0"
-    debug: bool = True
-    log_level: str = "DEBUG"
-
-    # Base de datos
-    database_url: str = "sqlite:///data/taskregistry.db"
-
-    # Azure DevOps
-    azure_devops_org: str = ""
-    azure_devops_project: str = ""
-    azure_devops_pat: str = ""
-
-    # Rutas
-    data_dir: Path = Path("data")
-    docs_dir: Path = Path("data/docs")
-
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        case_sensitive=False,
-    )
-
-
-settings = Settings()
-```
-
-### 4.2 `core/database.py`
-
-Configuración de SQLAlchemy/SQLModel:
-
-```python
-"""Configuración de la base de datos."""
-
-from pathlib import Path
-
-from sqlmodel import SQLModel, create_engine
-from sqlmodel import Session as DBSession
-
-from core.config import settings
-
-
-def get_engine():
-    """Crea y retorna el engine de SQLAlchemy."""
-    db_path = Path(settings.database_url.replace("sqlite:///", ""))
-    db_path.parent.mkdir(parents=True, exist_ok=True)
-    engine = create_engine(
-        settings.database_url,
-        echo=settings.debug,
-        connect_args={"check_same_thread": False},  # SQLite específico
-    )
-    return engine
-
-
-engine = get_engine()
-
-
-def create_db_and_tables():
-    """Crea todas las tablas definidas en los modelos SQLModel."""
-    SQLModel.metadata.create_all(engine)
-
-
-def get_session():
-    """Generador de sesiones de base de datos (para dependencias FastAPI)."""
-    with DBSession(engine) as session:
-        yield session
-```
-
-### 4.3 `core/dependencies.py`
-
-Fábricas de dependencias para FastAPI:
-
-```python
-"""Fábricas de dependencias para FastAPI."""
-
-import logging
-from collections.abc import Generator
-
-from fastapi import Depends
-from sqlmodel import Session
-
-from core.database import get_session
-
-logger = logging.getLogger(__name__)
-
-
-def get_db() -> Generator[Session, None, None]:
-    """Dependencia que provee una sesión de base de datos."""
-    yield from get_session()
-
-
-def get_logger() -> logging.Logger:
-    """Dependencia que provee un logger configurado."""
-    return logger
-```
-
-### 4.4 `core/logging_config.py`
-
-```python
-"""Configuración de logging centralizada."""
-
-import logging
-import sys
-from pathlib import Path
-
-from core.config import settings
-
-
-def setup_logging():
-    """Configura el logging para la aplicación."""
-    log_format = "%(asctime)s | %(levelname)-8s | %(name)s:%(funcName)s:%(lineno)d | %(message)s"
-    date_format = "%Y-%m-%d %H:%M:%S"
-
-    # Configurar logging a consola
-    logging.basicConfig(
-        level=getattr(logging, settings.log_level.upper(), logging.DEBUG),
-        format=log_format,
-        datefmt=date_format,
-        handlers=[
-            logging.StreamHandler(sys.stdout),
-        ],
-    )
-
-    # Opcional: logging a archivo
-    log_dir = Path("data")
-    log_dir.mkdir(parents=True, exist_ok=True)
-    file_handler = logging.FileHandler(
-        log_dir / "taskregistry.log",
-        encoding="utf-8",
-    )
-    file_handler.setFormatter(logging.Formatter(log_format, date_format))
-    logging.getLogger().addHandler(file_handler)
-
-    logging.info("Logging configurado correctamente")
-```
+### Detalles de configuracion
+- **Settings**: Lee APP_NAME, APP_VERSION, DEBUG, LOG_LEVEL, DATABASE_URL, Azure DevOps variables desde `.env`
+- **Database**: SQLite con `check_same_thread=False`, engine singleton
+- **Dependencies**: `get_db()` como generator para FastAPI Depends
+- **Logging**: Formato con timestamp, nivel, modulo, funcion y mensaje
 
 ---
 
-## 🧩 Tarea 5: Crear punto de entrada de la aplicación
+## Tarea 5: Crear punto de entrada de la aplicacion
 
-### 5.1 `main.py`
+### Archivos creados en la raiz
 
-```python
-"""Punto de entrada de la aplicación TaskRegistry."""
+| Archivo | Proposito |
+|---------|-----------|
+| `main.py` | Punto de entrada FastAPI con `create_app()` |
+| `run.py` | Script de desarrollo con uvicorn (reload activo) |
+| `run.bat` | Acceso directo Windows que activa venv y ejecuta run.py |
 
-from pathlib import Path
-
-from fastapi import FastAPI
-from fastapi.responses import RedirectResponse
-from fastapi.staticfiles import StaticFiles
-
-from core.config import settings
-from core.database import create_db_and_tables
-from core.logging_config import setup_logging
-
-# Lista de routers que se irán agregando con cada módulo
-# from proyectos.router import router as proyectos_router
-
-
-def create_app() -> FastAPI:
-    """Crea y configura la instancia de la aplicación FastAPI."""
-    # Configurar logging
-    setup_logging()
-
-    # Crear la aplicación
-    app = FastAPI(
-        title=settings.app_name,
-        version=settings.app_version,
-        description="Bitácora personal de tareas laborales",
-    )
-
-    # Crear tablas de base de datos (si no existen)
-    @app.on_event("startup")
-    def on_startup():
-        create_db_and_tables()
-
-    # Montar archivos estáticos
-    static_dir = Path("static")
-    if static_dir.exists():
-        app.mount("/static", StaticFiles(directory="static"), name="static")
-
-    # Registrar routers (se irán agregando)
-    # app.include_router(proyectos_router, prefix="/proyectos", tags=["Proyectos"])
-
-    # Redirigir raíz a Swagger UI (temporal, luego será al dashboard)
-    @app.get("/")
-    def root():
-        return RedirectResponse(url="/docs")
-
-    return app
-
-
-app = create_app()
-```
-
-### 5.2 `run.py`
-
-```python
-"""Script para ejecutar la aplicación en desarrollo."""
-
-import uvicorn
-
-from core.config import settings
-
-if __name__ == "__main__":
-    uvicorn.run(
-        "main:app",
-        host="127.0.0.1",
-        port=8000,
-        reload=True,
-        log_level=settings.log_level.lower(),
-    )
-```
-
-### 5.3 `run.bat` (acceso directo Windows)
-
-```bat
-@echo off
-cd /d "%~dp0"
-call venv\Scripts\activate
-python run.py
-pause
-```
+### Que implementa `main.py`
+- Funcion `create_app()` que crea instancia de FastAPI
+- Configura logging al arrancar
+- Crea tablas de BD en el evento startup
+- Monta archivos estaticos desde `static/`
+- Redirige raiz a Swagger UI (`/docs`)
+- Placeholder para registrar routers de modulos (comentado)
 
 ---
 
-## 🧩 Tarea 6: Inicializar Git y conectar con GitHub
+## Tarea 6: Inicializar Git y conectar con GitHub
 
-### 6.1 Inicializar repositorio local
+### Que se hizo
+1. Inicializar repositorio local con `git init`
+2. Agregar todos los archivos con `git add .`
+3. Commit inicial con mensaje convencional (`chore: initial project setup...`)
+4. Verificar que Ruff no encuentra errores
+5. Crear repositorio en GitHub (`task-registry`, privado)
+6. Conectar local con remoto y hacer push a `origin/main`
 
-```powershell
-git init
-git add .
-git commit -m "chore: initial project setup (Sprint 0)
+### Commit message
+```
+chore: initial project setup (Sprint 0)
 
 - Project structure with modular domain organization
 - Core configuration (settings, database, logging)
 - Dependencies (requirements.txt) and tooling config (pyproject.toml)
 - VS Code workspace settings
-- CI workflow for lint and test"
-```
-
-### 6.2 Verificar que `ruff` no encuentra errores
-
-```powershell
-ruff check .
-ruff format . --check
-```
-
-Si hay errores, corrígelos antes del commit.
-
-### 6.3 Crear el repositorio en GitHub
-
-1. Ve a https://github.com/new
-2. Nombre del repositorio: `task-registry`
-3. Descripción: "Bitácora personal de tareas laborales con sincronización a Azure DevOps"
-4. Visibilidad: **Private** (recomendado para datos personales) o **Public**
-5. **NO** marcar "Initialize this repository with a README" (ya tenemos el proyecto local)
-6. Click en "Create repository"
-
-### 6.4 Conectar local con remoto
-
-GitHub te mostrará instrucciones. Ejecuta:
-
-```powershell
-git remote add origin https://github.com/gomezcam/task-registry.git
-git branch -M main
-git push -u origin main
-```
-
-> **Nota:** Si nunca has configurado Git con GitHub, puede pedirte autenticación. Te recomiendo usar **GitHub CLI** o un **Personal Access Token (PAT)**. Si necesitas ayuda con eso, avísame.
-
----
-
-## 🧩 Tarea 7: Configurar VS Code
-
-### 7.1 Extensiones recomendadas
-
-Abre VS Code desde la terminal (estando en la raíz del proyecto):
-
-```powershell
-code .
-```
-
-Instala estas extensiones (puedes buscarlas en el marketplace o usar los siguientes comandos en la terminal integrada de VS Code):
-
-| Extensión | ID | Por qué |
-|-----------|-----|---------|
-| **Python** | `ms-python.python` | Soporte Python (intellisense, debugging) |
-| **Ruff** | `charliermarsh.ruff` | Linter y formateador integrado |
-| **Jinja** | `wholroyd.jinja` | Syntax highlighting para templates |
-| **HTMX** | `mrmlnc.vscode-htmx` | Resalta etiquetas HTMX en HTML |
-| **GitLens** | `eamodio.gitlens` | Visualización avanzada de Git |
-| **Todo Tree** | `Gruntfuggly.todo-tree` | Resalta comentarios TODO/FIXME |
-
-### 7.2 `.vscode/extensions.json` (recomendaciones)
-
-```json
-{
-    "recommendations": [
-        "ms-python.python",
-        "charliermarsh.ruff",
-        "wholroyd.jinja",
-        "mrmlnc.vscode-htmx",
-        "eamodio.gitlens",
-        "Gruntfuggly.todo-tree"
-    ]
-}
+- CI workflow for lint and test
 ```
 
 ---
 
-## 🧩 Tarea 8: Configurar GitHub Actions (CI/CD)
+## Tarea 7: Configurar VS Code
 
-### `.github/workflows/ci.yml`
+### Extensiones recomendadas
 
-```yaml
-name: CI
+| Extension | ID | Proposito |
+|-----------|-----|-----------|
+| Python | `ms-python.python` | Soporte Python (intellisense, debugging) |
+| Ruff | `charliermarsh.ruff` | Linter y formateador integrado |
+| Jinja | `wholroyd.jinja` | Syntax highlighting para templates |
+| HTMX | `mrmlnc.vscode-htmx` | Resalta etiquetas HTMX en HTML |
+| GitLens | `eamodio.gitlens` | Visualizacion avanzada de Git |
+| Todo Tree | `Gruntfuggly.todo-tree` | Resalta comentarios TODO/FIXME |
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Ruff lint
-        run: ruff check .
-      - name: Ruff format check
-        run: ruff format . --check
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Run tests
-        run: pytest -v --cov=.
-```
+Se creo `.vscode/extensions.json` con las recomendaciones.
 
 ---
 
-## 🧩 Tarea 9: Verificación final
+## Tarea 8: Configurar GitHub Actions (CI/CD)
 
-Antes de dar por terminado el Sprint 0, verifica:
+### Archivos creados en `.github/workflows/`
 
-### ✅ Checklist de verificación
+| Archivo | Proposito | Jobs |
+|---------|-----------|------|
+| `ci.yml` | CI en push/PR a main | lint (ruff check + format) + test (pytest --cov) |
+| `pr-validation.yml` | Validacion de PRs | Conventional commits + branch naming |
 
-- [ ] **pip funciona**: `python -m pip --version` muestra la versión
-- [ ] **Entorno virtual activo**: ves `(venv)` en la terminal
-- [ ] **Dependencias instaladas**: `python -c "import fastapi; print('OK')"` imprime "OK"
-- [ ] **Estructura de carpetas**: todas las carpetas existen (las listadas arriba)
-- [ ] **Ruff no reporta errores**: `ruff check .` sale limpio
-- [ ] **La app arranca**: `python run.py` inicia el servidor sin errores
-- [ ] **Swagger UI funciona**: abrir `http://localhost:8000/docs` en el navegador
-- [ ] **Git en GitHub**: `git log --oneline` muestra el commit inicial en `origin/main`
-
-### Cómo probar la aplicación
-
-1. Activa el entorno virtual: `.\venv\Scripts\activate`
-2. Ejecuta: `python run.py`
-3. Abre el navegador en: `http://localhost:8000/docs`
-4. Deberías ver la interfaz de Swagger UI (aunque aún sin endpoints, la app está viva)
+### Que valida el CI
+- **lint**: Ejecuta `ruff check .` y `ruff format . --check` en Ubuntu con Python 3.13
+- **test**: Ejecuta `pytest -v --cov=.` para verificar que todos los tests pasan
 
 ---
 
-## 📐 Resumen de archivos creados en Sprint 0
+## Tarea 9: Verificacion final
 
-| Archivo | Propósito |
+### Checklist de verificacion
+
+- [x] **pip funciona**: `python -m pip --version` muestra la version
+- [x] **Entorno virtual activo**: `(venv)` visible en la terminal
+- [x] **Dependencias instaladas**: import fastapi funciona correctamente
+- [x] **Estructura de carpetas**: todas las carpetas existen
+- [x] **Ruff no reporta errores**: `ruff check .` sale limpio
+- [x] **La app arranca**: `python run.py` inicia el servidor sin errores
+- [x] **Swagger UI funciona**: `http://localhost:8000/docs` accesible
+- [x] **Git en GitHub**: commit inicial presente en `origin/main`
+
+---
+
+## Resumen de archivos creados en Sprint 0
+
+| Archivo | Proposito |
 |---------|-----------|
 | `main.py` | Punto de entrada FastAPI |
 | `run.py` | Script de desarrollo con uvicorn |
 | `run.bat` | Acceso directo Windows |
 | `requirements.txt` | Dependencias del proyecto |
-| `pyproject.toml` | Configuración de herramientas (Ruff, pytest) |
+| `pyproject.toml` | Configuracion de herramientas (Ruff, pytest) |
 | `.env` | Variables de entorno local (gitignorado) |
 | `.env.example` | Plantilla de variables de entorno |
 | `.gitignore` | Archivos ignorados por Git |
 | `core/__init__.py` | Paquete core |
-| `core/config.py` | Configuración con pydantic-settings |
-| `core/database.py` | Engine y sesión de base de datos |
+| `core/config.py` | Configuracion con pydantic-settings |
+| `core/database.py` | Engine y sesion de base de datos |
 | `core/dependencies.py` | Fábricas de dependencias FastAPI |
-| `core/logging_config.py` | Configuración de logging |
-| `proyectos/__init__.py` | Paquete proyectos (vacío, listo para implementar) |
-| `tareas/__init__.py` | Paquete tareas (vacío) |
-| `documentos/__init__.py` | Paquete documentos (vacío) |
-| `sincronizacion/__init__.py` | Paquete sincronización (vacío) |
-| `tablero/__init__.py` | Paquete tablero (vacío) |
+| `core/logging_config.py` | Configuracion de logging |
+| `proyectos/__init__.py` | Paquete proyectos (vacio, listo para implementar) |
+| `tareas/__init__.py` | Paquete tareas (vacio) |
+| `documentos/__init__.py` | Paquete documentos (vacio) |
+| `sincronizacion/__init__.py` | Paquete sincronizacion (vacio) |
+| `tablero/__init__.py` | Paquete tablero (vacio) |
 | `tests/__init__.py` (y subpaquetes) | Paquete de tests |
-| `tests/test_config.py` | Tests de configuración |
+| `tests/test_config.py` | Tests de configuracion |
 | `tests/test_database.py` | Tests de base de datos |
 | `tests/test_dependencies.py` | Tests de dependencias |
 | `tests/test_logging_config.py` | Tests de logging |
 | `tests/test_main.py` | Tests del punto de entrada |
 | `.github/workflows/ci.yml` | CI con Ruff + pytest |
-| `.github/workflows/pr-validation.yml` | Validación de PRs (conventional commits, branch naming) |
+| `.github/workflows/pr-validation.yml` | Validacion de PRs |
 | `.vscode/extensions.json` | Extensiones recomendadas |
 
 ---
 
-## 🎯 Criterios de aceptación del Sprint 0
+## Criterios de aceptacion del Sprint 0
 
-- [x] La aplicación arranca sin errores con `python run.py`
+- [x] La aplicacion arranca sin errores con `python run.py`
 - [x] Swagger UI es accesible en `http://localhost:8000/docs`
 - [x] Ruff no reporta errores con `ruff check .`
-- [x] El repositorio está en GitHub con el commit inicial
-- [x] El README.md tiene instrucciones de instalación
-- [x] Todos los módulos tienen su estructura de carpetas creada (aunque vacía)
+- [x] El repositorio esta en GitHub con el commit inicial
+- [x] El README.md tiene instrucciones de instalacion
+- [x] Todos los modulos tienen su estructura de carpetas creada (aunque vacia)
