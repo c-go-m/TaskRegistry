@@ -1,0 +1,70 @@
+name: PR Validation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  validate-commits:
+    name: Validate Conventional Commits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate all PR commits
+        run: |
+          INVALID=0
+          for sha in $(git log --no-merges --format=%H origin/${{ github.base_ref }}..HEAD); do
+            MSG=$(git log --format=%s -1 "$sha")
+            if ! echo "$MSG" | grep -qP '^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert)(\([\w.-]+\))?: .{1,72}$'; then
+              echo "::error::Invalid commit: $sha - $MSG"
+              INVALID=$((INVALID + 1))
+            fi
+          done
+          if [ "$INVALID" -gt 0 ]; then
+            echo "::error::Found $INVALID commit(s) that do not follow Conventional Commits"
+            exit 1
+          fi
+          echo "All commits follow Conventional Commits"
+
+  validate-branch-name:
+    name: Validate GitFlow branch name
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name
+        run: |
+          BRANCH="${{ github.head_ref }}"
+          if ! echo "$BRANCH" | grep -qP '^(feature|bugfix|hotfix|release)/'; then
+            echo "::error::Branch '$BRANCH' does not follow GitFlow naming convention"
+            echo "Expected: feature/*, bugfix/*, hotfix/*, or release/*"
+            exit 1
+          fi
+          echo "Branch '$BRANCH' follows GitFlow naming convention"
+
+  lint-and-test:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ruff lint
+        run: ruff check .
+
+      - name: Run tests
+        run: pytest --tb=short -q

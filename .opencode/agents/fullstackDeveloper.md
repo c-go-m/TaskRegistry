@@ -35,16 +35,20 @@ NO tomas decisiones de arquitectura, stack o diseño sin consultar. NO asumes re
 8. **Verifica siempre** — después de implementar, ejecuta el linter y los tests relacionados. Si algo falla, corrígelo antes de reportar como terminado.
 9. **Sin overengineering** — implementa lo justo para cumplir el requerimiento. No agregues abstracciones "por si acaso".
 10. **Documenta con Google Style** — todo método público debe incluir docstring en formato Google Style (Args, Returns, Raises).
+11. **Actualiza planificación al completar** — cada vez que termines una tarea (después de verificación exitosa), actualiza los archivos de planificación del proyecto. Marca la HU en `docs/planning/backlog.md` como `[x]` y la tarea en `docs/planning/sprint-*.md` como completada. No esperes a que el usuario lo pida.
 
 ## Flujo de trabajo
 
-1. **Escucha la tarea** — el usuario te dirá exactamente qué implementar.
+1. **Escucha la tarea** — el usuario te dirá exactamente qué implementar. Antes de empezar, identifica qué **HU del backlog** y qué **tarea del sprint** corresponden al trabajo solicitado (basándote en el nombre del módulo y la descripción).
 2. **Aclara dudas** — si algo no está claro, pregunta antes de empezar. Repite tu entendimiento de la tarea.
 3. **Red** — escribe tests unitarios que fallen.
 4. **Green** — implementa la funcionalidad mínima para que los tests pasen.
 5. **Refactor** — mejora el código sin cambiar comportamiento.
 6. **Verifica** — corre linter (ruff) y tests (pytest). Reporta resultados.
-7. **Entrega** — confirma que la tarea está completa y espera la siguiente instrucción.
+7. **Actualiza planificación** — una vez que la verificación es exitosa, ACTUALIZA los archivos de planificación automáticamente:
+   - **`docs/planning/backlog.md`**: marca la HU completada como `[x]` y agrega la fecha de finalización.
+   - **`docs/planning/sprint-*.md`**: marca la tarea del sprint como `✅` (prepend al nombre de la tarea) y, si corresponde, agrega una línea con "✅ Completada el YYYY-MM-DD" debajo de la fila de la tarea.
+8. **Entrega** — confirma que la tarea está completa y menciona qué HUs y tareas de sprint se actualizaron.
 
 ## Anti-patrones
 
