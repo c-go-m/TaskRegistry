@@ -1,0 +1,19 @@
+[project]
+name = "task-registry"
+version = "0.1.0"
+description = "Bitácora personal de tareas laborales con sincronización a Azure DevOps"
+requires-python = ">=3.12"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

@@ -1,0 +1,35 @@
+# Entorno virtual
+venv/
+.venv/
+
+# Datos de usuario
+data/
+!data/.gitkeep
+
+# Archivos de entorno local
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+
+# VS Code (settings personales)
+.vscode/settings.json
+.vscode/launch.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
