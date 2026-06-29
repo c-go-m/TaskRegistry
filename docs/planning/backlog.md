@@ -15,6 +15,7 @@
 | E-04 | **Módulo Documentación** — Adjuntar docs a proyectos | 🔴 Crítica |
 | E-05 | **Módulo Sincronización Azure** — Sincronización batch a Azure DevOps | 🔴 Crítica |
 | E-06 | **Módulo Tablero de Control** — Métricas y dashboards | 🔴 Crítica |
+| E-07 | **Infraestructura UI/UX** — Sidebar, topbar, base template, logo, theme toggle, navegación transversal | 🔴 Crítica |
 
 ---
 
@@ -53,3 +54,11 @@
 ### E-06: Módulo Tablero de Control
 - [ ] HU-021: Como usuario, quiero ver métricas de tiempo invertido por proyecto en un rango de fechas
 - [ ] HU-022: Como usuario, quiero visualizar mi productividad con gráficos y resúmenes
+
+### E-07: Infraestructura UI/UX *(nueva)*
+- [ ] HU-023: Como usuario, quiero tener un layout visual consistente en todas las páginas para sentirme en una misma aplicación
+- [ ] HU-024: Como usuario, quiero una barra lateral (sidebar) con iconos para navegar entre módulos sin usar la URL
+- [ ] HU-025: Como usuario, quiero un logo e identidad visual (TaskRegistry) en la interfaz
+- [ ] HU-026: Como usuario, quiero un selector de tema claro/oscuro para trabajar cómodo según mi entorno
+- [ ] HU-027: Como usuario, quiero migas de pan (breadcrumbs) para saber dónde estoy dentro de la app
+- [ ] HU-028: Como usuario, quiero que la raíz de la app me lleve directamente a la lista de proyectos

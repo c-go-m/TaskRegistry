@@ -14,8 +14,9 @@
 | 1 | ✅ **Modelo y esquemas** — Completada el 2026-06-28 | Definir modelo SQLModel `Proyecto` + schemas Pydantic de entrada/salida | `proyectos/modelos.py`, `proyectos/esquemas.py`, `tests/proyectos/test_modelos.py` |
 | 2 | ✅ **Servicio CRUD** — Completada el 2026-06-28 | Implementar capa de servicios + **Repository pattern**. `ProyectoService` recibe `ProyectoRepository` inyectado (DI). | `proyectos/servicios.py`, `proyectos/repositorio.py`, `tests/proyectos/test_servicios.py`, `tests/proyectos/test_repositorio.py` |
 | 3 | ✅ **Router API REST** — Completada el 2026-06-28 | Endpoints JSON: POST, GET (lista), GET (detalle), PUT, PATCH (archivar) | `proyectos/router.py`, `tests/proyectos/test_router_api.py` |
-| 4 | ✅ **Vistas Web (Jinja2 + HTMX)** — Completada el 2026-06-28 | Templates HTML para listar, crear, editar y archivar proyectos con HTMX | `proyectos/templates/proyectos/list.html`, `proyectos/templates/proyectos/_tabla.html`, `proyectos/templates/proyectos/form.html`, `static/css/estilos.css`, `tests/proyectos/test_web.py` |
+| 4 | ✅ **Vistas Web (Jinja2 + HTMX)** — Completada el 2026-06-28 | Templates HTML para listar, crear, editar y archivar proyectos con HTMX | `proyectos/templates/proyectos/list.html`, `proyectos/templates/proyectos/_tabla.html` (reemplazado por `_project_grid.html`), `proyectos/templates/proyectos/form.html`, `static/css/estilos.css`, `tests/proyectos/test_web.py` |
 | 5 | ✅ **Integración en la app** — Completada el 2026-06-28 | Registrar el router en `main.py`, verificar Swagger UI y humo test | `main.py` (modificar) |
+| 6 | ✅ **Alineación UI/UX con Design System** — Completada el 2026-06-28 | Reemplazar tabla por cards en grid, paleta Indigo, badges de estado, buscador frontend, toggle archivados, empty state mejorado, hints en formulario | `static/css/estilos.css`, `proyectos/templates/proyectos/list.html`, `proyectos/templates/proyectos/_project_grid.html`, `proyectos/templates/proyectos/_project_grid_container.html`, `proyectos/templates/proyectos/form.html`, `proyectos/router.py`, `proyectos/repositorio.py`, `proyectos/servicios.py`, `tests/proyectos/test_web.py` |
 
 ---
 
@@ -247,15 +248,16 @@ python run.py
 | `proyectos/servicios.py` | Capa de servicio CRUD |
 | `proyectos/repositorio.py` | Capa de acceso a datos (Repository pattern) |
 | `proyectos/router.py` | Endpoints API REST + Rutas Web (Jinja2/HTMX) |
-| `proyectos/templates/proyectos/list.html` | Pagina principal de proyectos |
-| `proyectos/templates/proyectos/_tabla.html` | Partial HTMX para la tabla |
-| `proyectos/templates/proyectos/form.html` | Formulario crear/editar |
-| `static/css/estilos.css` | Estilos base de la aplicacion |
+| `proyectos/templates/proyectos/list.html` | Pagina principal de proyectos (con buscador, toggle archivados, grid de cards) |
+| `proyectos/templates/proyectos/_project_grid.html` | Partial HTMX con grid de cards (reemplaza `_tabla.html`) |
+| `proyectos/templates/proyectos/_project_grid_container.html` | Wrapper del grid (reemplaza `_tabla_container.html`) |
+| `proyectos/templates/proyectos/form.html` | Formulario crear/editar (con hints de caracteres) |
+| `static/css/estilos.css` | Estilos base con paleta Indigo, cards, badges, toggle, buscador |
 | `tests/proyectos/test_modelos.py` | Tests del modelo Proyecto |
 | `tests/proyectos/test_servicios.py` | Tests del servicio CRUD |
 | `tests/proyectos/test_repositorio.py` | Tests del repositorio |
 | `tests/proyectos/test_router_api.py` | Tests de los endpoints REST |
-| `tests/proyectos/test_web.py` | Tests de las vistas web |
+| `tests/proyectos/test_web.py` | Tests de las vistas web (cards, search, toggle) |
 | `main.py` | **MODIFICADO**: registro de routers de proyectos |
 
 ---
@@ -279,6 +281,10 @@ Cada tarea sigue el ciclo **RED -> GREEN -> REFACTOR**:
 
 - **Soft delete**: Se usa el campo `activo` en lugar de DELETE fisico. Los proyectos archivados no se muestran en la lista principal pero persisten en BD.
 - **Separacion API/Web**: `/api/proyectos/` para REST JSON, `/proyectos/` para HTML. Ambos comparten la misma capa de servicio.
-- **HTMX**: Las interacciones web (crear, editar, archivar) usan HTMX para actualizar solo la tabla sin recargar la pagina completa.
+- **HTMX**: Las interacciones web (crear, editar, archivar) usan HTMX para actualizar solo el grid sin recargar la pagina completa.
+- **Cards vs Tabla**: Los proyectos se muestran como cards en un grid responsive (1 col movil, 2 tablet, 3 desktop) en lugar de tabla HTML, siguiendo el design system.
+- **Paleta Indigo**: Color primario `#6366F1` (indigo-500) segun design system.
+- **Filtros frontend**: Buscador por nombre con filtro en tiempo real via JavaScript. Toggle "Mostrar archivados" que muestra/oculta cards archivados.
+- **Badges de estado**: Cada proyecto muestra badge "Activo" (verde) o "Archivado" (gris) con indicador de color.
 - **TDD obligatorio**: No se escribe codigo de logica sin antes tener el test que falla (RED).
 - **Formularios**: Se usa `hx-post` para creacion y `hx-put` para edicion. Los datos se envian como form data estandar y se reciben con `Form(...)` en FastAPI.

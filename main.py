@@ -53,7 +53,7 @@ def create_app() -> FastAPI:
 
     @app.get("/")
     def root():
-        return RedirectResponse(url="/docs")
+        return RedirectResponse(url="/proyectos/")
 
     return app
 

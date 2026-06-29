@@ -90,13 +90,13 @@ class TestListarProyectosWeb:
         assert response.headers["content-type"].startswith("text/html")
 
     def test_sin_proyectos_muestra_empty_state(self, client):
-        """Verifica que sin proyectos se muestra mensaje de lista vacía."""
+        """Verifica que sin proyectos se muestra el estado vacío."""
         response = client.get("/proyectos/")
         assert response.status_code == 200
-        assert "No hay proyectos activos" in response.text
+        assert "No hay proyectos a\u00fan" in response.text
 
-    def test_con_proyectos_muestra_tabla(self, client, session):
-        """Verifica que con proyectos se renderiza la tabla."""
+    def test_con_proyectos_muestra_cards(self, client, session):
+        """Verifica que con proyectos se renderizan las cards."""
         session.add_all([
             Proyecto(nombre="Proyecto Alpha", descripcion="Descripción Alpha"),
             Proyecto(nombre="Proyecto Beta"),
@@ -108,9 +108,10 @@ class TestListarProyectosWeb:
         assert "Proyecto Alpha" in response.text
         assert "Proyecto Beta" in response.text
         assert "Descripción Alpha" in response.text
+        assert "project-card" in response.text
 
     def test_excluye_proyectos_archivados(self, client, session):
-        """Verifica que proyectos archivados no aparecen en la tabla."""
+        """Verifica que proyectos archivados no aparecen en el listado."""
         session.add_all([
             Proyecto(nombre="Activo"),
             Proyecto(nombre="Archivado", activo=False),
@@ -122,6 +123,32 @@ class TestListarProyectosWeb:
         assert "Activo" in response.text
         assert "Archivado" not in response.text
 
+    def test_incluye_archivados_con_parametro(self, client, session):
+        """Verifica que con ?archivados=true se ven todos los proyectos."""
+        session.add_all([
+            Proyecto(nombre="Activo"),
+            Proyecto(nombre="Archivado", activo=False),
+        ])
+        session.commit()
+
+        response = client.get("/proyectos/?archivados=true")
+        assert response.status_code == 200
+        assert "Activo" in response.text
+        assert "Archivado" in response.text
+
+    def test_busqueda_por_nombre(self, client, session):
+        """Verifica que ?q= filtra proyectos por nombre."""
+        session.add_all([
+            Proyecto(nombre="Backend API"),
+            Proyecto(nombre="Frontend App"),
+        ])
+        session.commit()
+
+        response = client.get("/proyectos/?q=backend")
+        assert response.status_code == 200
+        assert "Backend API" in response.text
+        assert "Frontend App" not in response.text
+
 
 # ---------------------------------------------------------------------------
 # Tests — Formulario de creación
@@ -132,11 +159,11 @@ class TestFormularioCrear:
     """Tests para GET /proyectos/nuevo."""
 
     def test_muestra_formulario_con_texto_crear(self, client):
-        """Verifica que el formulario contiene el texto 'Crear'."""
+        """Verifica que el formulario de creación contiene el texto 'Crear Proyecto'."""
         response = client.get("/proyectos/nuevo")
         assert response.status_code == 200
         assert response.headers["content-type"].startswith("text/html")
-        assert "Crear" in response.text
+        assert "Crear Proyecto" in response.text
 
     def test_formulario_tiene_campo_nombre(self, client):
         """Verifica que el formulario tiene un campo para el nombre."""
@@ -160,7 +187,7 @@ class TestFormularioEditar:
 
         response = client.get(f"/proyectos/{proyecto.id}/editar")
         assert response.status_code == 200
-        assert "Actualizar" in response.text
+        assert "Guardar Cambios" in response.text
         assert "Proyecto Editable" in response.text
 
     def test_proyecto_inexistente_retorna_404(self, client):
@@ -178,13 +205,14 @@ class TestCrearProyectoWeb:
     """Tests para POST /proyectos/ (HTMX)."""
 
     def test_crear_proyecto_desde_formulario(self, client):
-        """Verifica que crear vía POST redirige o actualiza la tabla."""
+        """Verifica que crear vía POST retorna el partial del grid."""
         response = client.post(
             "/proyectos/",
             data={"nombre": "Nuevo Web", "descripcion": "Creado desde HTMX"},
         )
-        # Debe redirigir a la lista o retornar el partial de tabla
-        assert response.status_code in (200, 302, 303)
+        # Debe retornar el partial del grid de proyectos
+        assert response.status_code == 200
+        assert "project-card" in response.text
 
     def test_crear_proyecto_sin_nombre_retorna_error(self, client):
         """Verifica que crear sin nombre retorna error."""
@@ -199,17 +227,46 @@ class TestArchivarProyectoWeb:
     """Tests para PATCH /proyectos/{proyecto_id}/archivar (HTMX)."""
 
     def test_archivar_proyecto_existente(self, client, session):
-        """Verifica que archivar un proyecto vía HTMX retorna éxito."""
+        """Verifica que archivar un proyecto vía HTMX retorna el grid actualizado."""
         proyecto = Proyecto(nombre="Para Archivar Web")
         session.add(proyecto)
         session.commit()
 
         response = client.patch(f"/proyectos/{proyecto.id}/archivar")
-        # Debe retornar el partial de tabla actualizado
+        # Debe retornar el partial del grid (vacío o con cards restantes)
         assert response.status_code == 200
         assert response.headers["content-type"].startswith("text/html")
+        # Como era el único proyecto, ahora debe mostrar empty state
+        assert "No hay proyectos a\u00fan" in response.text
+
+    def test_archivar_con_otros_activos(self, client, session):
+        """Verifica que al archivar un proyecto, otros activos siguen visibles."""
+        p1 = Proyecto(nombre="A Eliminar")
+        p2 = Proyecto(nombre="A Mantener")
+        session.add_all([p1, p2])
+        session.commit()
+
+        response = client.patch(f"/proyectos/{p1.id}/archivar")
+        assert response.status_code == 200
+        assert "A Mantener" in response.text
+        assert "A Eliminar" not in response.text
+        assert "project-card" in response.text
 
     def test_archivar_proyecto_inexistente_retorna_404(self, client):
         """Verifica que archivar un ID inexistente retorna 404."""
         response = client.patch("/proyectos/999/archivar")
         assert response.status_code == 404
+
+    def test_htmx_partial_retorna_solo_grid(self, client, session):
+        """Verifica que con header HX-Request se retorna solo el partial del grid."""
+        session.add(Proyecto(nombre="Proyecto HTMX"))
+        session.commit()
+
+        response = client.get(
+            "/proyectos/",
+            headers={"HX-Request": "true"},
+        )
+        assert response.status_code == 200
+        assert "project-card" in response.text
+        # No debe contener el layout completo (no debe tener <html>)
+        assert "<!DOCTYPE html>" not in response.text

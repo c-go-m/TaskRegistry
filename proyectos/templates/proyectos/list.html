@@ -8,7 +8,7 @@
     <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="app-container">
         <header class="page-header">
             <h1>Proyectos</h1>
             <a href="/proyectos/nuevo"
@@ -20,9 +20,65 @@
             </a>
         </header>
 
+        <div class="toolbar">
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text"
+                       class="search-input"
+                       id="search-input"
+                       placeholder="Buscar proyecto..."
+                       oninput="filterProjects()">
+            </div>
+            <div class="toggle-wrapper">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-archived" onchange="toggleArchived()">
+                    <span class="toggle-slider"></span>
+                </label>
+                <label for="toggle-archived">Mostrar archivados</label>
+            </div>
+        </div>
+
         <main id="main-content">
-            {% include "proyectos/_tabla_container.html" %}
+            {% include "proyectos/_project_grid_container.html" %}
         </main>
     </div>
+
+    <script>
+        /* --- Filtro de proyectos por nombre (frontend) --- */
+        function filterProjects() {
+            var query = document.getElementById('search-input').value.toLowerCase();
+            var cards = document.querySelectorAll('.project-card');
+            var anyVisible = false;
+
+            cards.forEach(function(card) {
+                var nombre = card.getAttribute('data-nombre') || '';
+                var matches = nombre.includes(query);
+                card.style.display = matches ? '' : 'none';
+                if (matches) anyVisible = true;
+            });
+
+            /* Mostrar/ocultar empty state si no hay resultados visibles */
+            var emptyMsg = document.querySelector('.empty-state');
+            if (emptyMsg) {
+                emptyMsg.style.display = anyVisible ? 'none' : '';
+            }
+        }
+
+        /* --- Toggle mostrar/ocultar archivados --- */
+        function toggleArchived() {
+            var showArchived = document.getElementById('toggle-archived').checked;
+            var cards = document.querySelectorAll('.project-card');
+
+            cards.forEach(function(card) {
+                var isArchived = card.getAttribute('data-activo') === 'false';
+                if (isArchived) {
+                    card.classList.toggle('hidden-card', !showArchived);
+                }
+            });
+
+            /* Re-evaluar empty state */
+            filterProjects();
+        }
+    </script>
 </body>
 </html>

@@ -47,6 +47,14 @@ class ProyectoService:
         logger.info("Proyecto creado: id=%d nombre='%s'", resultado.id, resultado.nombre)
         return resultado
 
+    def listar_todos(self) -> list[Proyecto]:
+        """Lista todos los proyectos, incluyendo archivados.
+
+        Returns:
+            Lista completa de proyectos ordenados por ``created_at`` descendente.
+        """
+        return self._repo.list_all()
+
     def listar_activos(self) -> list[Proyecto]:
         """Lista todos los proyectos activos.
 

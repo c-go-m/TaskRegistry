@@ -1,0 +1,78 @@
+{% if proyectos %}
+<div class="project-grid">
+    {% for proyecto in proyectos %}
+    <div class="project-card{% if not proyecto.activo %} archived{% endif %}"
+         onclick="window.location.href='/proyectos/{{ proyecto.id }}/detalle'"
+         role="link"
+         tabindex="0"
+         data-id="{{ proyecto.id }}"
+         data-nombre="{{ proyecto.nombre|lower }}"
+         data-activo="{{ 'true' if proyecto.activo else 'false' }}">
+        <div class="project-card-header">
+            <div class="project-card-icon">
+                📁
+            </div>
+            <span class="project-card-name" title="{{ proyecto.nombre }}">{{ proyecto.nombre }}</span>
+            {% if proyecto.activo %}
+            <span class="badge badge-active">
+                <span class="badge-dot badge-dot-active"></span>
+                Activo
+            </span>
+            {% else %}
+            <span class="badge badge-archived">
+                <span class="badge-dot badge-dot-archived"></span>
+                Archivado
+            </span>
+            {% endif %}
+        </div>
+
+        <div class="project-card-desc">
+            {% if proyecto.descripcion %}
+                {{ proyecto.descripcion[:120] }}{% if proyecto.descripcion|length > 120 %}...{% endif %}
+            {% else %}
+                <span style="color: var(--color-text-tertiary); font-style: italic;">Sin descripción</span>
+            {% endif %}
+        </div>
+
+        <div class="project-card-meta">
+            <span>🗓️ {{ proyecto.created_at.strftime("%d/%m/%Y") }}</span>
+            {% if proyecto.updated_at and proyecto.updated_at != proyecto.created_at %}
+            <span>🔄 {{ proyecto.updated_at.strftime("%d/%m/%Y") }}</span>
+            {% endif %}
+        </div>
+
+        <div class="project-card-actions">
+            <a href="/proyectos/{{ proyecto.id }}/editar"
+               class="btn btn-small btn-secondary"
+               hx-get="/proyectos/{{ proyecto.id }}/editar"
+               hx-target="#main-content"
+               hx-swap="innerHTML"
+               onclick="event.stopPropagation();">
+                Editar
+            </a>
+            <button class="btn btn-small btn-danger"
+                    hx-patch="/proyectos/{{ proyecto.id }}/archivar"
+                    hx-target="#project-grid-container"
+                    hx-swap="innerHTML"
+                    hx-confirm="¿Archivar proyecto '{{ proyecto.nombre }}'?"
+                    onclick="event.stopPropagation();">
+                Archivar
+            </button>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <div class="empty-state-icon">📂</div>
+    <h3>No hay proyectos aún</h3>
+    <p>Crea tu primer proyecto para empezar a registrar tareas y organizar tu trabajo.</p>
+    <a href="/proyectos/nuevo"
+       class="btn btn-primary"
+       hx-get="/proyectos/nuevo"
+       hx-target="#main-content"
+       hx-swap="innerHTML">
+        + Nuevo Proyecto
+    </a>
+</div>
+{% endif %}

@@ -68,6 +68,16 @@ class ProyectoRepository:
         result = self._session.exec(statement)
         return list(result.all())
 
+    def list_all(self) -> list[Proyecto]:
+        """Lista todos los proyectos (activos y archivados) ordenados por created_at descendente.
+
+        Returns:
+            Lista completa de proyectos ordenados por ``created_at`` descendente.
+        """
+        statement = select(Proyecto).order_by(Proyecto.created_at.desc())
+        result = self._session.exec(statement)
+        return list(result.all())
+
     def save(self, proyecto: Proyecto) -> Proyecto:
         """Persiste los cambios de un proyecto existente.
 

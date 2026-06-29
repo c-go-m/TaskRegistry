@@ -1,7 +1,7 @@
 <div class="form-container">
     <h2>{% if proyecto %}Editar Proyecto{% else %}Nuevo Proyecto{% endif %}</h2>
 
-    <form class="form-proyecto"
+    <form class="form-project"
           {% if proyecto %}
           hx-put="/proyectos/{{ proyecto.id }}"
           hx-target="#main-content"
@@ -13,27 +13,29 @@
           {% endif %}>
 
         <div class="form-group">
-            <label for="nombre">Nombre</label>
+            <label for="nombre" class="required">Nombre</label>
             <input type="text"
                    id="nombre"
                    name="nombre"
                    value="{{ proyecto.nombre if proyecto else '' }}"
                    required
-                   maxlength="200"
+                   maxlength="120"
                    placeholder="Nombre del proyecto">
+            <span class="field-hint">M&aacute;x. 120 caracteres</span>
+            <span class="field-error">El nombre es obligatorio</span>
         </div>
 
         <div class="form-group">
-            <label for="descripcion">Descripción</label>
+            <label for="descripcion">Descripci&oacute;n <span class="field-hint" style="display:inline; margin-left:0.25rem; font-weight:400;">(opcional)</span></label>
             <textarea id="descripcion"
                       name="descripcion"
                       maxlength="2000"
-                      placeholder="Descripción opcional del proyecto">{{ proyecto.descripcion if proyecto else '' }}</textarea>
+                      placeholder="Descripci&oacute;n opcional del proyecto">{{ proyecto.descripcion if proyecto else '' }}</textarea>
         </div>
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
-                {% if proyecto %}Actualizar{% else %}Crear{% endif %}
+                {% if proyecto %}Guardar Cambios{% else %}Crear Proyecto{% endif %}
             </button>
             <a href="/proyectos/"
                class="btn btn-secondary"

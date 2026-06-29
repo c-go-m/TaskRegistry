@@ -180,24 +180,41 @@ def _get_web_service(session: Session = Depends(get_db)) -> ProyectoService:
 @router_web.get("/")
 def listar_proyectos_web(
     request: Request,
+    q: str = "",
+    archivados: bool = False,
     service: ProyectoService = Depends(_get_web_service),
 ):
-    """Página HTML con la lista de proyectos activos.
+    """Página HTML con la lista de proyectos.
+
+    Soporta búsqueda por nombre (``q``) y visualización de proyectos
+    archivados (``archivados``). Los filtros se aplican del lado del
+    servidor cuando se proporcionan parámetros, o del lado del cliente
+    (JS) para respuestas HTMX parciales.
 
     Si la petición viene de HTMX (``HX-Request`` header), retorna solo el
-    partial de la tabla para evitar duplicar el layout al hacer swap
+    partial del grid para evitar duplicar el layout al hacer swap
     dentro de ``#main-content``.
 
     Args:
         request: Objeto Request de FastAPI.
+        q: Término de búsqueda por nombre (opcional).
+        archivados: Si es True, incluye proyectos archivados.
         service: Servicio de proyectos inyectado.
 
     Returns:
-        Plantilla HTML renderizada con la lista de proyectos.
+        Plantilla HTML renderizada con el grid de proyectos.
     """
-    proyectos = service.listar_activos()
+    if archivados:
+        proyectos = service.listar_todos()
+    else:
+        proyectos = service.listar_activos()
+
+    if q:
+        q_lower = q.lower()
+        proyectos = [p for p in proyectos if q_lower in p.nombre.lower()]
+
     template_name = (
-        "proyectos/_tabla_container.html"
+        "proyectos/_project_grid_container.html"
         if request.headers.get("hx-request") == "true"
         else "proyectos/list.html"
     )
@@ -253,7 +270,7 @@ def crear_proyecto_web(
     proyectos = service.listar_activos()
     return templates.TemplateResponse(
         request,
-        "proyectos/_tabla_container.html",
+        "proyectos/_project_grid_container.html",
         {"proyectos": proyectos},
     )
 
@@ -323,7 +340,7 @@ def actualizar_proyecto_web(
     proyectos = service.listar_activos()
     return templates.TemplateResponse(
         request,
-        "proyectos/_tabla_container.html",
+        "proyectos/_project_grid_container.html",
         {"proyectos": proyectos},
     )
 
@@ -356,6 +373,6 @@ def archivar_proyecto_web(
     proyectos = service.listar_activos()
     return templates.TemplateResponse(
         request,
-        "proyectos/_tabla.html",
+        "proyectos/_project_grid.html",
         {"proyectos": proyectos},
     )
