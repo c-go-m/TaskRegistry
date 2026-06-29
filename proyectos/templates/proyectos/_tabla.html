@@ -1,0 +1,45 @@
+{% if proyectos %}
+<table class="tabla">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Creado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for proyecto in proyectos %}
+        <tr>
+            <td>{{ proyecto.id }}</td>
+            <td>{{ proyecto.nombre }}</td>
+            <td>
+                {% if proyecto.descripcion %}
+                    {{ proyecto.descripcion[:50] }}{% if proyecto.descripcion|length > 50 %}...{% endif %}
+                {% endif %}
+            </td>
+            <td>{{ proyecto.created_at.strftime("%Y-%m-%d %H:%M") }}</td>
+            <td class="acciones">
+                <a href="/proyectos/{{ proyecto.id }}/editar"
+                   class="btn btn-small btn-secondary"
+                   hx-get="/proyectos/{{ proyecto.id }}/editar"
+                   hx-target="#main-content"
+                   hx-swap="innerHTML">
+                    Editar
+                </a>
+                <button class="btn btn-small btn-danger"
+                        hx-patch="/proyectos/{{ proyecto.id }}/archivar"
+                        hx-target="#tabla-proyectos"
+                        hx-swap="innerHTML"
+                        hx-confirm="¿Archivar proyecto '{{ proyecto.nombre }}'?">
+                    Archivar
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty-state">No hay proyectos activos</p>
+{% endif %}

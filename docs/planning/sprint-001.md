@@ -11,11 +11,11 @@
 
 | # | Tarea | Descripción | Archivos a crear/modificar |
 |---|-------|-------------|---------------------------|
-| 1 | **Modelo y esquemas** | Definir modelo SQLModel `Proyecto` + schemas Pydantic de entrada/salida | `proyectos/modelos.py`, `proyectos/esquemas.py`, `tests/proyectos/test_modelos.py` |
-| 2 | **Servicio CRUD** | Implementar capa de servicios con operaciones: crear, listar, obtener, actualizar, archivar | `proyectos/servicios.py`, `tests/proyectos/test_servicios.py` |
-| 3 | **Router API REST** | Endpoints JSON: POST, GET (lista), GET (detalle), PUT, PATCH (archivar) | `proyectos/router.py`, `tests/proyectos/test_router_api.py` |
-| 4 | **Vistas Web (Jinja2 + HTMX)** | Templates HTML para listar, crear, editar y archivar proyectos con HTMX | `proyectos/templates/proyectos/list.html`, `proyectos/templates/proyectos/_tabla.html`, `proyectos/templates/proyectos/form.html`, `static/css/estilos.css`, `tests/proyectos/test_web.py` |
-| 5 | **Integración en la app** | Registrar el router en `main.py`, verificar Swagger UI y humo test | `main.py` (modificar) |
+| 1 | ✅ **Modelo y esquemas** — Completada el 2026-06-28 | Definir modelo SQLModel `Proyecto` + schemas Pydantic de entrada/salida | `proyectos/modelos.py`, `proyectos/esquemas.py`, `tests/proyectos/test_modelos.py` |
+| 2 | ✅ **Servicio CRUD** — Completada el 2026-06-28 | Implementar capa de servicios + **Repository pattern**. `ProyectoService` recibe `ProyectoRepository` inyectado (DI). | `proyectos/servicios.py`, `proyectos/repositorio.py`, `tests/proyectos/test_servicios.py`, `tests/proyectos/test_repositorio.py` |
+| 3 | ✅ **Router API REST** — Completada el 2026-06-28 | Endpoints JSON: POST, GET (lista), GET (detalle), PUT, PATCH (archivar) | `proyectos/router.py`, `tests/proyectos/test_router_api.py` |
+| 4 | ✅ **Vistas Web (Jinja2 + HTMX)** — Completada el 2026-06-28 | Templates HTML para listar, crear, editar y archivar proyectos con HTMX | `proyectos/templates/proyectos/list.html`, `proyectos/templates/proyectos/_tabla.html`, `proyectos/templates/proyectos/form.html`, `static/css/estilos.css`, `tests/proyectos/test_web.py` |
+| 5 | ✅ **Integración en la app** — Completada el 2026-06-28 | Registrar el router en `main.py`, verificar Swagger UI y humo test | `main.py` (modificar) |
 
 ---
 
@@ -215,11 +215,11 @@ python run.py
 ## Criterios de aceptación del Sprint 1
 
 ### Criterios generales (DoD)
-- [ ] **TDD**: Cada tarea de código siguió RED -> GREEN -> REFACTOR
-- [ ] **Tests**: Todos los tests pasan con `pytest -v`
-- [ ] **Ruff**: `ruff check .` pasa sin errores
+- [x] **TDD**: Cada tarea de código siguió RED -> GREEN -> REFACTOR
+- [x] **Tests**: Todos los tests pasan con `pytest -v` (94 tests)
+- [x] **Ruff**: `ruff check .` pasa sin errores
 - [ ] **Commits**: Todos siguen Conventional Commits (`feat:`, `test:`, `refactor:`, etc.)
-- [ ] **Cobertura**: Las nuevas líneas de código tienen test asociado
+- [x] **Cobertura**: Las nuevas líneas de código tienen test asociado
 
 ### Criterios funcionales — Modulo Proyectos
 
@@ -230,11 +230,11 @@ python run.py
 | 3 | **Obtener detalle** | `GET /api/proyectos/{id}` retorna el proyecto si existe, 404 si no |
 | 4 | **Actualizar proyecto** | `PUT /api/proyectos/{id}` actualiza campos y retorna el proyecto modificado |
 | 5 | **Archivar proyecto** | `PATCH /api/proyectos/{id}/archivar` cambia activo a False |
-| 6 | **Vista web lista** | `GET /proyectos/` retorna HTML con tabla de proyectos |
-| 7 | **Vista web formulario** | `GET /proyectos/nuevo` retorna HTML con formulario |
-| 8 | **Vista web editar** | `GET /proyectos/{id}/editar` retorna formulario precargado |
-| 9 | **HTMX crear** | `POST /proyectos/` via HTMX actualiza la tabla sin recargar pagina |
-| 10 | **HTMX archivar** | `PATCH /proyectos/{id}/archivar` via HTMX actualiza la tabla |
+| 6 | ✅ **Vista web lista** | `GET /proyectos/` retorna HTML con tabla de proyectos |
+| 7 | ✅ **Vista web formulario** | `GET /proyectos/nuevo` retorna HTML con formulario |
+| 8 | ✅ **Vista web editar** | `GET /proyectos/{id}/editar` retorna formulario precargado |
+| 9 | ✅ **HTMX crear** | `POST /proyectos/` via HTMX actualiza la tabla sin recargar pagina |
+| 10 | ✅ **HTMX archivar** | `PATCH /proyectos/{id}/archivar` via HTMX actualiza la tabla |
 
 ---
 
@@ -245,6 +245,7 @@ python run.py
 | `proyectos/modelos.py` | Modelo SQLModel `Proyecto` |
 | `proyectos/esquemas.py` | Schemas Pydantic (Create, Update, Response) |
 | `proyectos/servicios.py` | Capa de servicio CRUD |
+| `proyectos/repositorio.py` | Capa de acceso a datos (Repository pattern) |
 | `proyectos/router.py` | Endpoints API REST + Rutas Web (Jinja2/HTMX) |
 | `proyectos/templates/proyectos/list.html` | Pagina principal de proyectos |
 | `proyectos/templates/proyectos/_tabla.html` | Partial HTMX para la tabla |
@@ -252,6 +253,7 @@ python run.py
 | `static/css/estilos.css` | Estilos base de la aplicacion |
 | `tests/proyectos/test_modelos.py` | Tests del modelo Proyecto |
 | `tests/proyectos/test_servicios.py` | Tests del servicio CRUD |
+| `tests/proyectos/test_repositorio.py` | Tests del repositorio |
 | `tests/proyectos/test_router_api.py` | Tests de los endpoints REST |
 | `tests/proyectos/test_web.py` | Tests de las vistas web |
 | `main.py` | **MODIFICADO**: registro de routers de proyectos |

@@ -31,10 +31,10 @@
 - [x] HU-008: Como desarrollador, quiero tener el core del proyecto configurado (config, database, dependencies, logging)
 
 ### E-02: Módulo Proyectos
-- [ ] HU-009: Como usuario, quiero crear un proyecto con nombre y descripción para organizar mis tareas
-- [ ] HU-010: Como usuario, quiero ver la lista de proyectos para seleccionar uno
-- [ ] HU-011: Como usuario, quiero editar un proyecto para actualizar su información
-- [ ] HU-012: Como usuario, quiero archivar un proyecto para ocultarlo de la vista principal
+- [x] HU-009: Como usuario, quiero crear un proyecto con nombre y descripción para organizar mis tareas _(2026-06-28 - modelo y esquemas)_
+- [x] HU-010: Como usuario, quiero ver la lista de proyectos para seleccionar uno _(2026-06-28 - servicio CRUD)_
+- [x] HU-011: Como usuario, quiero editar un proyecto para actualizar su información _(2026-06-28 - API REST)_
+- [x] HU-012: Como usuario, quiero archivar un proyecto para ocultarlo de la vista principal _(2026-06-28 - API REST)_
 
 ### E-03: Módulo Tareas
 - [ ] HU-013: Como usuario, quiero registrar una tarea con fecha, proyecto, descripción y tiempo invertido

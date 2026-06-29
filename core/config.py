@@ -28,10 +28,10 @@ class Settings(BaseSettings):
     # Base de datos
     database_url: str
 
-    # Azure DevOps
-    azure_devops_org: str
-    azure_devops_project: str
-    azure_devops_pat: str
+    # Azure DevOps (opcional — por defecto string vacío)
+    azure_devops_org: str = ""
+    azure_devops_project: str = ""
+    azure_devops_pat: str = ""
 
     # Rutas
     data_dir: Path

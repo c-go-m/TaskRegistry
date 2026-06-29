@@ -11,6 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from core.config import settings
 from core.database import create_db_and_tables
 from core.logging_config import setup_logging
+from proyectos.router import router_api, router_web
 
 
 @asynccontextmanager
@@ -45,6 +46,10 @@ def create_app() -> FastAPI:
     static_dir = Path("static")
     if static_dir.exists():
         app.mount("/static", StaticFiles(directory="static"), name="static")
+
+    # Registrar routers
+    app.include_router(router_api)
+    app.include_router(router_web)
 
     @app.get("/")
     def root():

@@ -27,3 +27,6 @@ def pytest_configure(config) -> None:
     os.environ.setdefault("DATABASE_URL", "sqlite:///data/test_taskregistry.db")
     os.environ.setdefault("DATA_DIR", "data")
     os.environ.setdefault("DOCS_DIR", "data/docs")
+    os.environ.setdefault("AZURE_DEVOPS_ORG", "")
+    os.environ.setdefault("AZURE_DEVOPS_PROJECT", "")
+    os.environ.setdefault("AZURE_DEVOPS_PAT", "")

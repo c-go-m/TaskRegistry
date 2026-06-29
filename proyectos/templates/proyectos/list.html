@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyectos - TaskRegistry</title>
+    <link rel="stylesheet" href="/static/css/estilos.css">
+    <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1>Proyectos</h1>
+            <a href="/proyectos/nuevo"
+               class="btn btn-primary"
+               hx-get="/proyectos/nuevo"
+               hx-target="#main-content"
+               hx-swap="innerHTML">
+                + Nuevo Proyecto
+            </a>
+        </header>
+
+        <main id="main-content">
+            {% include "proyectos/_tabla_container.html" %}
+        </main>
+    </div>
+</body>
+</html>
